@@ -1,38 +1,20 @@
-# Running Code using CLI
-```bash
-$ ./gradlew bootRun
+#Format for .env
 ```
-___
-# Running unittest using CLI
-```bash
-$ ./gradlew test
-```
-___
-# Formatting using CLI:
-Add following plugin to `build.gradle`:
-```gradle
-plugin {
-    ...
-    id 'com.diffplug.spotless' version '6.22.0'
-}
-
-spotless {
-    java {
-        googleJavaFormat()
-    }
-}
-```
-For formatting using Cli:
-```bash
-$ ./gradlew spotlessApply
-```
-___
-# Hot Reloading
-Add following dependency in `build.gradle`:
-```gradle
-implementation group: 'org.springframework.boot', name: 'spring-boot-devtools'
+POSTGRES_DB=your_database_name
+POSTGRES_USER=your_username
+POSTGRES_PASSWORD=your_password
 ```
 
+### Development Commands
+
+| Command                     | Description                 |
+| --------------------------- | --------------------------- |
+| `$ ./gradlew bootRun`       | Run the development server. |
+| `$ ./gradlew test`          | Run unit tests.             |
+| `$ ./gradlew spotlessApply` | Apply code formatting.      |
+___
+
+For Hot Reloading, add following dependency in `build.gradle`:
 
 | Terminal 1                            | Terminal 2                  | Checks unittest | Checks Formatting |
 | ------------------------------------- | --------------------------- | --------------- | ----------------- |
