@@ -1,41 +1,57 @@
 package com.example.urbancart.controller;
-import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+
 import com.example.urbancart.model.Product;
 import com.example.urbancart.service.ProductService;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/product")
-public class ProductController{
+@RequestMapping("/products")
+public class ProductController {
 
-    public final ProductService productService;
+  public final ProductService productService;
 
-    @Autowired
-    public ProductController(ProductService productService) {
-        this.productService = productService;
-    }
+  @Autowired
+  public ProductController(ProductService productService) {
+    this.productService = productService;
+  }
 
-    @GetMapping("/all")
-    public List<Product> getAllProducts() {
-        return this.productService.getAllProducts();
-    }
+  @PostMapping
+  @ResponseStatus(HttpStatus.CREATED)
+  public Product create(@RequestBody Product product) {
+    return this.productService.save(product);
+  }
 
-    @PostMapping("/add")
-    public String addProduct(@RequestBody Product product) {
-        this.productService.addProduct(product);
-        return "Product added successfully: " + product.getName() + " - Price: " + product.getPrice();
-    }
+  @GetMapping
+  public List<Product> findAll() {
+    return this.productService.findAll();
+  }
 
-    @PostMapping("/update")
-    public String updateProduct(@RequestBody Product product) {
-        String productName = product.getName();
-        return "Product updated successfully: " + productName + " - Price: ";
-    }
+  @GetMapping("/{id}")
+  public Optional<Product> findById(@PathVariable UUID id) {
+    return this.productService.findById(id);
+  }
 
+  @PutMapping("/{id}")
+  public Product update(@PathVariable UUID id, @RequestBody Product product) {
+    return this.productService.update(id, product);
+  }
 
+  @DeleteMapping("/{id}")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  public void delete(@PathVariable UUID id) {
+    this.productService.remove(id);
+  }
 }

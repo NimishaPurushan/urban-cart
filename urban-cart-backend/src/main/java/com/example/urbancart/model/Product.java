@@ -1,27 +1,28 @@
 package com.example.urbancart.model;
 
-import java.util.UUID;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.Data;
-
+import java.util.UUID;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 @Table(name = "products")
 public class Product {
-    
-    @Id
-    @GeneratedValue
-    private UUID id;
-    
-    private String name;
 
-    private String description;
-    
-    private int price;
+  @Id @GeneratedValue private UUID id;
 
-    private int quantity;
+  private String name;
+
+  private String description;
+
+  private int price;
+
+  private int quantity;
 }
