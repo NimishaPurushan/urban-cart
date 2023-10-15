@@ -1,10 +1,11 @@
-# Format for .env
+# Configure your environment before use:
 ```
-POSTGRES_DB=your_database_name
-POSTGRES_USER=your_username
-POSTGRES_PASSWORD=your_password
-REDIS_PASSWORD=your_redis_password
-REDIS_DB=your_redis_db
+export POSTGRES_DB=your_database_name
+export POSTGRES_USER=your_username
+export POSTGRES_PASSWORD=your_password
+export REDIS_PASSWORD=your_redis_password
+export REDIS_DB=your_redis_db
+export POSTGRES_URL=jdbc:postgresql://localhost:5432/${POSTGRES_DB}
 ```
 
 ### Development Commands
