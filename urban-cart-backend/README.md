@@ -1,4 +1,4 @@
-#Format for .env
+# Format for .env
 ```
 POSTGRES_DB=your_database_name
 POSTGRES_USER=your_username
