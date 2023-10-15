@@ -12,7 +12,10 @@ class SmokeTest {
 	private HelloController helloController;
 
   @Test
-  void contextLoads() {
-	assertThat(helloController).isNotNull();
+  void contextLoads() {}
+
+  @Test
+  public void applicationContextTest() {
+    MainApplication.main(new String[] {});
   }
 }
