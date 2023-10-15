@@ -8,20 +8,6 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
-    services:
-      postgres:
-        image: postgres:13.3
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: postgres
-        ports:
-          - 5432:5432
-        options: >-
-            --health-cmd pg_isready
-            --health-interval 10s
-            --health-timeout 5s
-            --health-retries 5
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -32,9 +18,8 @@ jobs:
           distribution: 'adopt'
           java-version: '17'
 
-      - name: Build and Run Tests
-        run: cd urban-cart-backend && ./gradlew check
-        env:
-          POSTGRES_JDBC_URL: jdbc:postgresql://localhost:5432/postgres
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
+      - name: Configure JPA and Build
+        run: |
+          cd urban-cart-backend
+          cp -f src/main/resources/application-test.properties src/main/resources/application.properties
+          ./gradlew check
