@@ -5,7 +5,7 @@ on:
     types: [opened, synchronize]
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
 
     steps:
@@ -18,5 +18,8 @@ jobs:
           distribution: 'adopt'
           java-version: '17'
 
-      - name: Build and Run Tests
-        run: cd urban-cart-backend && ./gradlew check
+      - name: Configure JPA and Build
+        run: |
+          cd urban-cart-backend
+          cp -f src/main/resources/application-test.properties src/main/resources/application.properties
+          ./gradlew check
