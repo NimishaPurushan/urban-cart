@@ -5,7 +5,7 @@ export POSTGRES_USER=your_username
 export POSTGRES_PASSWORD=your_password
 export REDIS_PASSWORD=your_redis_password
 export REDIS_DB=your_redis_db
-export POSTGRES_URL=jdbc:postgresql://localhost:5432/${POSTGRES_DB}
+export POSTGRES_JDBC_URL=jdbc:postgresql://localhost:5432/${POSTGRES_DB}
 ```
 
 ### Development Commands
