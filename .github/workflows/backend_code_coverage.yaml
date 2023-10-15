@@ -1,4 +1,4 @@
-name: Code Coverage
+name: Backend Code Coverage
 
 on:
   pull_request:
@@ -16,6 +16,7 @@ jobs:
         uses: actions/setup-java@v2
         with:
           distribution: 'adopt'
+          java-version: '17'
 
       - name: Build and Run Tests
         run: cd urban-cart-backend && ./gradlew check
