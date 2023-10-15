@@ -33,10 +33,11 @@ Add following dependency in `build.gradle`:
 implementation group: 'org.springframework.boot', name: 'spring-boot-devtools'
 ```
 
-| Terminal 1                            | Terminal 2                  | checks unittest and formatting |
-| ------------------------------------- | --------------------------- | ----------- |
-| ```$ ./gradlew build --continuous ``` | ```$ ./gradlew bootRun  ``` | X |
-| ```$ ./gradlew -t :bootJar  ```       | ```$ ./gradlew bootRun  ``` |  |
+
+| Terminal 1                            | Terminal 2                  | Checks unittest | Checks Formatting |
+| ------------------------------------- | --------------------------- | --------------- | ----------------- |
+| ```$ ./gradlew build --continuous ``` | ```$ ./gradlew bootRun  ``` | Yes             | Yes               |
+| ```$ ./gradlew -t :bootJar  ```       | ```$ ./gradlew bootRun  ``` | No              | No                |
 
 # Diffrence between `@RequestParam`  vs `@QueryParam` 
 
