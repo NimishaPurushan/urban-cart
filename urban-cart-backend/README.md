@@ -14,6 +14,14 @@ REDIS_DB=your_redis_db
 | `$ ./gradlew bootRun`       | Run the development server. |
 | `$ ./gradlew test`          | Run unit tests.             |
 | `$ ./gradlew spotlessApply` | Apply code formatting.      |
+| `$ ./gradlew check`         | Test code coverage          |
+
+If you want to see code coverage when test fails then run:
+```bash
+$ cd build/jacocoHtml/; python3 -m http.server
+```
+
+You can see report at http://localhost:8000/com.example.urbancart/
 ___
 
 For Hot Reloading, add following dependency in `build.gradle`:

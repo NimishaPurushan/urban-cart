@@ -8,4 +8,9 @@ class SmokeTest {
 
   @Test
   void contextLoads() {}
+
+  @Test
+  public void applicationContextTest() {
+    MainApplication.main(new String[] {});
+  }
 }
