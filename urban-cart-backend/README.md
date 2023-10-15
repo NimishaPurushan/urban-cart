@@ -1,8 +1,10 @@
-#Format for .env
+# Format for .env
 ```
 POSTGRES_DB=your_database_name
 POSTGRES_USER=your_username
 POSTGRES_PASSWORD=your_password
+REDIS_PASSWORD=your_redis_password
+REDIS_DB=your_redis_db
 ```
 
 ### Development Commands
@@ -12,6 +14,14 @@ POSTGRES_PASSWORD=your_password
 | `$ ./gradlew bootRun`       | Run the development server. |
 | `$ ./gradlew test`          | Run unit tests.             |
 | `$ ./gradlew spotlessApply` | Apply code formatting.      |
+| `$ ./gradlew check`         | Test code coverage          |
+
+If you want to see code coverage when test fails then run:
+```bash
+$ cd build/jacocoHtml/; python3 -m http.server
+```
+
+You can see report at http://localhost:8000/com.example.urbancart/
 ___
 
 For Hot Reloading, add following dependency in `build.gradle`:
