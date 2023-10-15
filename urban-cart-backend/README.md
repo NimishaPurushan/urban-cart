@@ -3,6 +3,8 @@
 POSTGRES_DB=your_database_name
 POSTGRES_USER=your_username
 POSTGRES_PASSWORD=your_password
+REDIS_PASSWORD=your_redis_password
+REDIS_DB=your_redis_db
 ```
 
 ### Development Commands
