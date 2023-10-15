@@ -18,5 +18,18 @@ jobs:
           distribution: 'adopt'
           java-version: '17'
 
+      - name: Set up PostgreSQL
+        uses: postgresql/setup-postgres@v2
+        with:
+          postgresql-version: '12'
+          postgresql-user: ${{ secrets.POSTGRES_USER }}
+          postgresql-password: ${{ secrets.POSTGRES_PASSWORD }}
+          postgresql-db: ${{ secrets.POSTGRES_DB }}
+
       - name: Build and Run Tests
         run: cd urban-cart-backend && ./gradlew check
+        env:
+          POSTGRES_JDBC_URL: jdbc:postgresql://localhost:5432/${{ secrets.POSTGRES_DB }}
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
