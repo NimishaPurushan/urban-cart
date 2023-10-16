@@ -2,7 +2,6 @@ package com.example.urbancart.controller;
 
 import com.example.urbancart.model.Product;
 import com.example.urbancart.service.ProductService;
-import java.util.Optional;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -38,12 +37,14 @@ public class ProductController {
   @GetMapping
   public Page<Product> findAll(
       @RequestParam(defaultValue = "0") Integer page,
-      @RequestParam(defaultValue = "10") Integer size) {
-    return this.productService.findAll(page, size);
+      @RequestParam(defaultValue = "10") Integer size,
+      @RequestParam(defaultValue = "price") String sortBy,
+      @RequestParam(defaultValue = "desc") String sortDirection) {
+    return this.productService.findAll(page, size, sortBy, sortDirection);
   }
 
   @GetMapping("/{id}")
-  public Optional<Product> findById(@PathVariable UUID id) {
+  public Product findById(@PathVariable UUID id) {
     return this.productService.findById(id);
   }
 
