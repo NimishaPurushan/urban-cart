@@ -19,7 +19,7 @@ jobs:
           java-version: '17'
 
       - name: Configure JPA and Build
+        working-directory: urban-cart-backend
         run: |
-          cd urban-cart-backend
           cp -f src/main/resources/application-test.properties src/main/resources/application.properties
           ./gradlew check
