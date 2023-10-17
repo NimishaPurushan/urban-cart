@@ -21,10 +21,6 @@ public class MainApplication {
     // Print environment and full url
     return args -> {
       String port = environment.getProperty("local.server.port");
-      String activeProfile = environment.getProperty("spring.profiles.active");
-      String logLevel = environment.getProperty("logging.level.org.springframework.web");
-      logger.info("Application Profile: \"{}\"", activeProfile);
-      logger.info("Log Level: \"{}\"", logLevel);
       logger.info("Swagger UI: http://localhost:{}/swagger-ui.html", port);
     };
   }

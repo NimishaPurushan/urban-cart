@@ -19,8 +19,8 @@ class SmokeTest {
     assertThat(productController).isNotNull();
   }
 
-  // @Test
-  // public void applicationContextTest() {
-  //   MainApplication.main(new String[] {});
-  // }
+  @Test
+  public void applicationContextTest() {
+    MainApplication.main(new String[] {});
+  }
 }
