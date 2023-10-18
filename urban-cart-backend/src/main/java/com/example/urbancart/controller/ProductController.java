@@ -1,10 +1,10 @@
 package com.example.urbancart.controller;
 
+import com.example.urbancart.common.CustomPage;
 import com.example.urbancart.model.Product;
 import com.example.urbancart.service.ProductService;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,12 +35,14 @@ public class ProductController {
   }
 
   @GetMapping
-  public Page<Product> findAll(
+  public CustomPage<Product> findAll(
       @RequestParam(defaultValue = "0") Integer page,
       @RequestParam(defaultValue = "10") Integer size,
       @RequestParam(defaultValue = "price") String sortBy,
-      @RequestParam(defaultValue = "desc") String sortDirection) {
-    return this.productService.findAll(page, size, sortBy, sortDirection);
+      @RequestParam(defaultValue = "desc") String sortDirection,
+      @RequestParam(defaultValue = "false") Boolean isDeleted,
+      @RequestParam(defaultValue = "") String search) {
+    return this.productService.findAll(page, size, sortBy, sortDirection, isDeleted, search);
   }
 
   @GetMapping("/{id}")
@@ -55,7 +57,8 @@ public class ProductController {
 
   @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.NO_CONTENT)
-  public void delete(@PathVariable UUID id) {
-    this.productService.remove(id);
+  public void delete(
+      @PathVariable UUID id, @RequestParam(defaultValue = "false") Boolean isHardDelete) {
+    this.productService.remove(id, isHardDelete);
   }
 }
