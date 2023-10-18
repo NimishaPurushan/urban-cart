@@ -1,15 +1,19 @@
 package com.example.urbancart.service;
 
+import com.example.urbancart.common.CustomPage;
 import com.example.urbancart.model.Category;
 import com.example.urbancart.repository.CategoryRepository;
-import java.util.Optional;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class CategoryService {
@@ -21,20 +25,34 @@ public class CategoryService {
     this.categoryRepository = categoryRepository;
   }
 
-  public Category saveCategory(Category category) {
+  public Category save(Category category) {
     return this.categoryRepository.save(category);
   }
 
-  public Page<Category> findAll(int page, int size) {
+  public Long count() {
+    return this.categoryRepository.count();
+  }
+
+  public CustomPage<Category> findAll(int page, int size) {
     Pageable pageable = PageRequest.of(page, size, Sort.by("name").descending());
-    return this.categoryRepository.findAll(pageable);
+    var data = this.categoryRepository.findAll(pageable);
+    return new CustomPage<Category>(data);
   }
 
-  public Category updateCategory(Category category) {
+  @Cacheable(key = "#id", unless = "#result == null", value = "category")
+  public Category findById(UUID id) {
+    return this.categoryRepository
+        .findById(id)
+        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Category not found"));
+  }
+
+  @CachePut(key = "#category.id", unless = "#result == null", value = "category")
+  public Category update(Category category) {
     return this.categoryRepository.save(category);
   }
 
-  public Optional<Category> findById(UUID id) {
-    return this.categoryRepository.findById(id);
+  @CacheEvict(key = "#id", value = "category")
+  public void deleteById(UUID id) {
+    this.categoryRepository.deleteById(id);
   }
 }

@@ -2,6 +2,8 @@ package com.example.urbancart;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyBoolean;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.*;
 
@@ -17,7 +19,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -32,29 +33,27 @@ class ProductServiceTest {
 
   @Test
   void testFindAll() {
-    // Mocking
     List<Product> productList = new ArrayList<>();
-    when(productRepository.findAll(any(Pageable.class))).thenReturn(new PageImpl<>(productList));
+    when(productRepository.findAllByIsDeletedAndNameContainingIgnoreCase(
+            any(Pageable.class), anyBoolean(), anyString()))
+        .thenReturn(new PageImpl<>(productList));
 
-    // Test
-    Page<Product> result = productService.findAll(0, 10, "name", "asc");
+    var result = productService.findAll(0, 10, "name", "asc", false, "");
 
-    // Verify
     assertNotNull(result);
-    verify(productRepository, times(1)).findAll(any(Pageable.class));
+    verify(productRepository, times(1))
+        .findAllByIsDeletedAndNameContainingIgnoreCase(
+            any(Pageable.class), anyBoolean(), anyString());
   }
 
   @Test
   void testFindById() {
-    // Mocking
     UUID productId = UUID.randomUUID();
     Product product = new Product();
     when(productRepository.findById(productId)).thenReturn(Optional.of(product));
 
-    // Test
     Product result = productService.findById(productId);
 
-    // Verify
     assertNotNull(result);
     verify(productRepository, times(1)).findById(productId);
   }
@@ -97,33 +96,39 @@ class ProductServiceTest {
 
   @Test
   void testRemove() {
-    productService.remove(UUID.randomUUID());
+    productService.remove(UUID.randomUUID(), true);
     verify(productRepository, times(1)).deleteById(any(UUID.class));
   }
 
   @Test
   void testFindAllSortingDirection() {
     List<Product> productList = new ArrayList<>();
-    when(productRepository.findAll(any(Pageable.class))).thenReturn(new PageImpl<>(productList));
+    when(productRepository.findAllByIsDeletedAndNameContainingIgnoreCase(
+            any(Pageable.class), anyBoolean(), anyString()))
+        .thenReturn(new PageImpl<>(productList));
 
-    Page<Product> resultAsc = productService.findAll(0, 10, "name", "asc");
-    Page<Product> resultDesc = productService.findAll(0, 10, "name", "desc");
+    var resultAsc = productService.findAll(0, 10, "name", "asc", false, "");
+    var resultDesc = productService.findAll(0, 10, "name", "desc", false, "");
 
     assertNotNull(resultDesc);
     assertNotNull(resultAsc);
     verify(productRepository, times(1))
-        .findAll(
+        .findAllByIsDeletedAndNameContainingIgnoreCase(
             argThat(
                 (Pageable pageable) -> {
                   Sort.Order order = pageable.getSort().getOrderFor("name");
                   return order != null && order.getDirection().equals(Sort.Direction.DESC);
-                }));
+                }),
+            anyBoolean(),
+            anyString());
     verify(productRepository, times(1))
-        .findAll(
+        .findAllByIsDeletedAndNameContainingIgnoreCase(
             argThat(
                 (Pageable pageable) -> {
                   Sort.Order order = pageable.getSort().getOrderFor("name");
                   return order != null && order.getDirection().equals(Sort.Direction.ASC);
-                }));
+                }),
+            anyBoolean(),
+            anyString());
   }
 }
