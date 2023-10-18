@@ -24,7 +24,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 @WebMvcTest(ProductController.class)
 public class ProductControllerTest {
-
   @Autowired private MockMvc mockMvc;
 
   @MockBean private ProductService productService;
