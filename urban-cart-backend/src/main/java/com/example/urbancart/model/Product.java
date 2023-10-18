@@ -5,8 +5,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.NotNull;
 import java.math.BigInteger;
 import java.util.UUID;
 import lombok.Data;
@@ -18,14 +19,15 @@ public class Product {
 
   @Id @GeneratedValue private UUID id;
 
-  @NotBlank private String name;
+  @NotBlank @NotNull private String name;
 
   @Column(columnDefinition = "TEXT")
   private String description;
 
-  @PositiveOrZero
+  @Min(0)
   @Column(columnDefinition = "BIGINT")
   private BigInteger price; // in cents
 
-  @PositiveOrZero private int quantity;
+  @Min(0)
+  private Integer quantity;
 }
