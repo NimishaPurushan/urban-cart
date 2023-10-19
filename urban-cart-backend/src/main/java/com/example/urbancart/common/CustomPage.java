@@ -12,11 +12,13 @@ public class CustomPage<T> {
   private int page;
   private int size;
   private long count;
+  private long totalPages;
 
   public CustomPage(Page<T> page) {
     this.data = page.getContent();
     this.count = page.getTotalElements();
     this.page = page.getNumber();
     this.size = page.getSize();
+    this.totalPages = page.getTotalPages();
   }
 }

@@ -1,16 +1,15 @@
 package com.example.urbancart.service;
 
-import com.example.urbancart.common.CustomPage;
+import com.example.urbancart.dto.category.CategoryInputDto;
 import com.example.urbancart.model.Category;
 import com.example.urbancart.repository.CategoryRepository;
+import java.util.List;
 import java.util.UUID;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -19,24 +18,25 @@ import org.springframework.web.server.ResponseStatusException;
 public class CategoryService {
 
   public final CategoryRepository categoryRepository;
+  private final ModelMapper modelMapper;
 
   @Autowired
-  public CategoryService(CategoryRepository categoryRepository) {
+  public CategoryService(CategoryRepository categoryRepository, ModelMapper modelMapper) {
     this.categoryRepository = categoryRepository;
+    this.modelMapper = modelMapper;
   }
 
-  public Category save(Category category) {
-    return this.categoryRepository.save(category);
+  public Category save(CategoryInputDto category) {
+    Category categoryModel = modelMapper.map(category, Category.class);
+    return this.categoryRepository.save(categoryModel);
   }
 
   public Long count() {
     return this.categoryRepository.count();
   }
 
-  public CustomPage<Category> findAll(int page, int size) {
-    Pageable pageable = PageRequest.of(page, size, Sort.by("name").descending());
-    var data = this.categoryRepository.findAll(pageable);
-    return new CustomPage<Category>(data);
+  public List<Category> findAll() {
+    return this.categoryRepository.findAll();
   }
 
   @Cacheable(key = "#id", unless = "#result == null", value = "category")
@@ -47,8 +47,10 @@ public class CategoryService {
   }
 
   @CachePut(key = "#category.id", unless = "#result == null", value = "category")
-  public Category update(Category category) {
-    return this.categoryRepository.save(category);
+  public Category update(UUID id, CategoryInputDto category) {
+    Category categoryModel = modelMapper.map(category, Category.class);
+    categoryModel.setId(id);
+    return this.categoryRepository.save(categoryModel);
   }
 
   @CacheEvict(key = "#id", value = "category")

@@ -1,4 +1,4 @@
-package com.example.urbancart;
+package com.example.urbancart.controller;
 
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -7,7 +7,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.example.urbancart.common.CustomPage;
-import com.example.urbancart.controller.ProductController;
 import com.example.urbancart.model.Product;
 import com.example.urbancart.service.ProductService;
 import java.util.Arrays;
