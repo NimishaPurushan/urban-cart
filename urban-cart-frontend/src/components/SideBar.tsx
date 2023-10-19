@@ -9,20 +9,23 @@ import ListItemButton from "@mui/material/ListItemButton";
 
 import ListItemText from "@mui/material/ListItemText";
 import Toolbar from "@mui/material/Toolbar";
+import { useState, useEffect } from "react";
+import { getCategories } from "../utils/api";
 
 const drawerWidth = 200;
 
-interface Props {
-  /**
-   * Injected by the documentation to work in an iframe.
-   * You won't need it on your project.
-   */
-  window?: () => Window;
-}
-
-export default function SideBar(props: Props) {
+export default function SideBar(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    // Calculate the offset based on the current page and number of products per page
+
+    getCategories().then((data) => {
+      setCategories(data.data);
+    });
+  }, []);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -33,20 +36,10 @@ export default function SideBar(props: Props) {
       <Toolbar />
       <Divider />
       <List>
-        {["Inbox", "Starred", "Send email", "Drafts"].map((text) => (
-          <ListItem key={text} disablePadding>
+        {categories.map((category) => (
+          <ListItem key={category.id} disablePadding>
             <ListItemButton>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <List>
-        {["All mail", "Trash", "Spam"].map((text) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemText primary={text} />
+              <ListItemText primary={category.name} />
             </ListItemButton>
           </ListItem>
         ))}
