@@ -1,4 +1,4 @@
-package com.example.urbancart;
+package com.example.urbancart.service;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -9,7 +9,6 @@ import static org.mockito.Mockito.*;
 
 import com.example.urbancart.model.Product;
 import com.example.urbancart.repository.ProductRepository;
-import com.example.urbancart.service.ProductService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

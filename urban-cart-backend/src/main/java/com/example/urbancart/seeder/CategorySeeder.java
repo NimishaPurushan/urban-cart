@@ -1,6 +1,6 @@
 package com.example.urbancart.seeder;
 
-import com.example.urbancart.model.Category;
+import com.example.urbancart.dto.category.CategoryInputDto;
 import com.example.urbancart.service.CategoryService;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +44,7 @@ public class CategorySeeder {
       return;
     }
     for (String name : CATEGORY_NAMES) {
-      var category = new Category();
+      var category = new CategoryInputDto();
       category.setName(name);
       var description = String.format("This is a %s category", name);
       category.setDescription(description);
