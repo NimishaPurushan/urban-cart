@@ -27,6 +27,9 @@ export const NavBar = () => {
             Urban Cart
           </Typography>
           <Button color="inherit">
+            <Link to="/">Home</Link>
+          </Button>
+          <Button color="inherit">
             <Link to="/sell-item">Sell Item</Link>
           </Button>
           <Button color="inherit">Cart</Button>

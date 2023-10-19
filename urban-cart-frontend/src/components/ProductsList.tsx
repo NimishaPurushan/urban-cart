@@ -12,7 +12,7 @@ export const ProductsList = () => {
     // Calculate the offset based on the current page and number of products per page
 
     getProducts(page, ProductsPerPage).then((data) => {
-      setProducts(data.content);
+      setProducts(data.data);
       setTotalPages(data.totalPages);
     });
   }, [page]);
